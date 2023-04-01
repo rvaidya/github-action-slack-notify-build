@@ -9,16 +9,11 @@ export const GITHUB_PUSH_EVENT = {
   context: {
     payload: {
       repository,
-      commits: [
-        {
-          id: '1',
-          message: 'first commit',
-        },
-        {
-          id: '2',
-          message: 'second commit',
-        },
-      ]
+      head_commit:
+      {
+        id: '1',
+        message: 'first commit',
+      },
     },
     ref: 'refs/heads/my-branch',
     workflow: 'CI',

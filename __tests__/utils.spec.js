@@ -76,7 +76,7 @@ describe('Utils', () => {
 
         expect(attachments[0].fields.find(a => a.title === 'Commit Message')).toEqual({
           title: 'Commit Message',
-          value: 'second message',
+          value: 'first message',
           short: true,
         });
       });

@@ -5,7 +5,6 @@ function buildSlackAttachments({ status, color, github }) {
   const { owner, repo } = context.repo;
   const event = eventName;
   const branch = event === 'pull_request' ? payload.pull_request.head.ref : ref.replace('refs/heads/', '');
-  const message = payload.commits ? payload.commits.slice(-1).message : null;
 
   const sha = event === 'pull_request' ? payload.pull_request.head.sha : github.context.sha;
   const runId = parseInt(process.env.GITHUB_RUN_ID, 10);
@@ -47,10 +46,10 @@ function buildSlackAttachments({ status, color, github }) {
     },
   ]
 
-  if (message) {
+  if (payload.head_commit) {
     fields.push({
       title: 'Commit Message',
-      value: message,
+      value: payload.head_commit.message,
       short: true,
     });
   }
