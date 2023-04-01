@@ -46,7 +46,7 @@ describe('Utils', () => {
 
         expect(attachments[0].fields.find(a => a.title === 'Repo')).toEqual({
           title: 'Repo',
-          value: `<https://github.com/rvaidya/github-action-slack-notify-build | voxmedia/github-action-slack-notify-build>`,
+          value: `<https://github.com/rvaidya/github-action-slack-notify-build | rvaidya/github-action-slack-notify-build>`,
           short: true,
         });
       });

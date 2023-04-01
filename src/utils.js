@@ -13,50 +13,52 @@ function buildSlackAttachments({ status, color, github }) {
   const referenceLink =
     event === 'pull_request'
       ? {
-          title: 'Pull Request',
-          value: `<${payload.pull_request.html_url} | ${payload.pull_request.title}>`,
-          short: true,
-        }
+        title: 'Pull Request',
+        value: `<${payload.pull_request.html_url} | ${payload.pull_request.title}>`,
+        short: true,
+      }
       : {
-          title: 'Branch',
-          value: `<https://github.com/${owner}/${repo}/commit/${sha} | ${branch}>`,
-          short: true,
-        };
+        title: 'Branch',
+        value: `<https://github.com/${owner}/${repo}/commit/${sha} | ${branch}>`,
+        short: true,
+      };
 
-  const messageField =
-    message ? {
+  const fields = [
+    {
+      title: 'Repo',
+      value: `<https://github.com/${owner}/${repo} | ${owner}/${repo}>`,
+      short: true,
+    },
+    {
+      title: 'Workflow',
+      value: `<https://github.com/${owner}/${repo}/actions/runs/${runId} | ${workflow}>`,
+      short: true,
+    },
+    {
+      title: 'Status',
+      value: status,
+      short: true,
+    },
+    referenceLink,
+    {
+      title: 'Event',
+      value: event,
+      short: true,
+    },
+  ]
+
+  if (message) {
+    fields.push({
       title: 'Commit Message',
       value: message,
       short: true,
-    } : null;
+    });
+  }
 
   return [
     {
       color,
-      fields: [
-        {
-          title: 'Repo',
-          value: `<https://github.com/${owner}/${repo} | ${owner}/${repo}>`,
-          short: true,
-        },
-        {
-          title: 'Workflow',
-          value: `<https://github.com/${owner}/${repo}/actions/runs/${runId} | ${workflow}>`,
-          short: true,
-        },
-        {
-          title: 'Status',
-          value: status,
-          short: true,
-        },
-        referenceLink,
-        {
-          title: 'Event',
-          value: event,
-          short: true,
-        },
-        messageField,
-      ],
+      fields,
       footer_icon: 'https://github.githubassets.com/favicon.ico',
       footer: `<https://github.com/${owner}/${repo} | ${owner}/${repo}>`,
       ts: Math.floor(Date.now() / 1000),
